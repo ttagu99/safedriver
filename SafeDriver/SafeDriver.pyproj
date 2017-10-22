@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>0fdafba5-ab7a-4cd9-b6d4-524e53e03f12</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>SafeDriver.py</StartupFile>
+    <StartupFile>upsample.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -22,6 +22,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="upsample.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="SafeDriver.py" />
   </ItemGroup>
   <PropertyGroup>
