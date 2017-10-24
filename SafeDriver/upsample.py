@@ -7,7 +7,7 @@ from numba import jit
 from sklearn.preprocessing import LabelEncoder
 import time 
 
-root = r'D:\kaggle'
+root = r'Z:\kaggle'
 @jit
 def eval_gini(y_true, y_prob):
     """
@@ -174,30 +174,16 @@ for fold_, (trn_idx, val_idx) in enumerate(folds.split(target, target)):
     trn_dat, trn_tgt = trn_df.iloc[trn_idx], target.iloc[trn_idx]
     val_dat, val_tgt = trn_df.iloc[val_idx], target.iloc[val_idx]
 
-    #params = {
-    #'min_child_weight': 10.0,
-    #'objective': 'binary:logistic',
-    #'max_depth': 7,
-    #'max_delta_step': 1.8,
-    #'colsample_bytree': 0.4,
-    #'subsample': 0.8,
-    #'eta': 0.025,
-    #'gamma': 0.65,
-    #'num_boost_round' : 700
-    #}
-
     clf = XGBClassifier(n_estimators=n_estimators,
-                        max_depth=7,
+                        max_depth=4,
                         objective="binary:logistic",
                         learning_rate=.1, 
                         subsample=.8, 
-                        colsample_bytree=.4,
-                        gamma=0.65,
+                        colsample_bytree=.8,
+                        gamma=1,
                         reg_alpha=0,
                         reg_lambda=1,
-                        nthread=8,
-                        min_child_weight=10.0,
-                        max_delta_step=1.8
+                        nthread=12
                         )
     # Upsample during cross validation to avoid having the same samples
     # in both train and validation sets
@@ -217,7 +203,7 @@ for fold_, (trn_idx, val_idx) in enumerate(folds.split(target, target)):
     clf.fit(trn_dat, trn_tgt, 
             eval_set=[(trn_dat, trn_tgt), (val_dat, val_tgt)],
             eval_metric=gini_xgb,
-            early_stopping_rounds=200,
+            early_stopping_rounds=None,
             verbose=False)
             
     imp_df[:, fold_] = clf.feature_importances_
